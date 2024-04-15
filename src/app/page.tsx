@@ -7,6 +7,7 @@ export default function Home() {
       <nav>
         <div className="flex justify-center items-center p-4 gap-6">
           <Link href="/feed">Feed</Link>
+          <Link href="/mynetwork">My Network</Link>
           <Link href="/createPost">Create Post</Link>
           <Link href="/login">Login</Link>
           <Link href="/signup">signup</Link>

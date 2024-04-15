@@ -1,37 +1,20 @@
 import { NextRequest, NextResponse } from "next/server"
 import { PrismaClient } from '@prisma/client'
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest){
     const prisma = new PrismaClient();
-    try {
+    try{
         const reqBody = await req.json();
         const userId = Number(reqBody.userId);
+
         const user = await prisma.user.findUnique({
             where: {
                 id: userId
             },
             select: {
                 id: true,
-                name: true,
                 email: true,
-                posts: {
-                    select: {
-                        id: true,
-                        title: true,
-                        content: true
-                    },
-
-                },
-                followers: {
-                    select: {
-                        id: true,
-                    }
-                },
-                following: {
-                    select: {
-                        id: true,
-                    }
-                }
+                name: true,
             }
         });
 
@@ -47,14 +30,14 @@ export async function POST(req: NextRequest) {
             message: "User found",
             user
         });
-    } 
-    catch (err) {
+    }
+    catch(err){
         console.log(err);
         return NextResponse.json({
             message: "Error getting users"
         });
-    } 
-    finally {
+    }
+    finally{
         await prisma.$disconnect();
     }
 }

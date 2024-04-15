@@ -20,7 +20,10 @@ model User {
   password String
   posts Post[]
   comments Comment[]
+  following Following[]
+  followers Followers[]
 }
+
 
 model Post {
   id        Int     @id @default(autoincrement())
@@ -40,3 +43,16 @@ model Comment {
   author User   @relation(fields: [authorId], references: [id])
   authorId Int
 }
+
+model Following{
+  id Int @id @default(autoincrement())
+  follower User @relation(fields: [followerId], references: [id])
+  followerId Int
+}
+
+model Followers{
+  id Int @id @default(autoincrement())
+  following User @relation(fields: [followingId], references: [id])
+  followingId Int
+}
+

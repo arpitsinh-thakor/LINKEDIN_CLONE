@@ -1,6 +1,7 @@
 'use client'
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
+import User from '../components/User'
 
 const Profile = () => {
 
@@ -8,6 +9,9 @@ const Profile = () => {
         id: '',
         email: '',
         name: '',
+        posts: [],
+        followers: [],
+        following: []
     })
     const [posts, setPosts] = useState([])
 
@@ -37,7 +41,12 @@ const Profile = () => {
             <div>
                 <h3>Posts</h3>
                 <ul>
-                    {posts.map((post: any) => (
+                    {posts && posts.map((post: {
+                        id: string;
+                        title: string;
+                        content: string;
+                        published: boolean;
+                    }) => (
                         <li key={post.id}>
                             <div className='border border-white p-2'>
                                 <h4>{post.title}</h4>
@@ -47,6 +56,18 @@ const Profile = () => {
                         </li>
                     ))}
                 </ul>
+            </div>
+            <h3>Followers</h3>
+            <div>
+                {user.followers && user.followers.map((follower: any) => (
+                    <User key={follower.id} userId = {follower.id} />
+                ))}
+            </div>
+            <h3>Following</h3>
+            <div>
+                {user.following && user.following.map((follow: any) => (
+                    <User key={follow.id} userId = {follow.id} />
+                ))}
             </div>
         </div>
     </div>

@@ -2,20 +2,10 @@
 import { get } from 'http';
 import { NextResponse } from 'next/server';
 import { useState, useEffect } from 'react'
+import { Post } from '../interfaces/post';
+import PostComponent from '../components/Post';
 
 
-interface Post {
-    id: number;
-    title: string;
-    email: string;
-    content: string;
-    published: boolean
-    authorId: number
-    author:{
-        name: string
-    }
-
-}
 const Feed = () => {
     const [posts, setPosts] = useState([]);
 
@@ -32,14 +22,11 @@ const Feed = () => {
   return (
     <div>
         <h1>Feed Page</h1>
-        <ul>
+        <ul className='flex flex-col gap-2 m-2 '>
             {
                 posts.map((post: Post) => {
                     return <li key={post.id}>
-                        <h3>{post.title}</h3>
-                        <p>{post.content}</p>
-                        <p>{post.author.name}</p>
-                        <p>{post.published ? "yes published": "yet to be published"}</p>
+                       <PostComponent post = {post}/>
                     </li>
                 })
             }   

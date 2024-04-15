@@ -12,6 +12,9 @@ export async function GET(req: NextRequest) {
                 author: {
                   select: { name: true },
                 },
+                comments: {
+                  select: { text: true, author: { select: { name: true } } },
+                }
               },
             });
         console.log(posts);

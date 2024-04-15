@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { Post } from '../interfaces/post'
 import axios from 'axios'
+import Comments from './Comments'
 
 
 const  PostComponent = ({post}:{post: Post}) => {
-    const {title, content, author, published, comments} = post
+    const {id, title, content, author, published, comments} = post
     const [comment, setComment] = useState('')
 
     console.log(post)
@@ -13,6 +14,7 @@ const  PostComponent = ({post}:{post: Post}) => {
         const authorId = Number(localStorage.getItem('userId'))
         const res = await axios.post('/api/users/comment', {comment, authorId, postId: post.id})
     }
+
   return (
     <div className='border border-blue-50 p-2'>
         <h3>{title}</h3>

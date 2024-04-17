@@ -18,6 +18,7 @@ const Login = () => {
         console.log(res)
         const data = await res.data
         localStorage.setItem('userId', data.user.id)
+        localStorage.setItem('userName', data.user.name)
 
         if(res.status === 200){
             console.log("Login successful")

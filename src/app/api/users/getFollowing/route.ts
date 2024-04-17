@@ -6,40 +6,32 @@ export  async function POST(req: NextRequest){
     try{
         const reqBody = await req.json();
         const userId = Number(reqBody.userId);
-
-        const user = await prisma.user.findUnique({
+        
+        //form userId's following extract theri details
+        const following = await prisma.user.findUnique({
             where: {
                 id: userId
-            }
-        });
-
-        if(!user){
-            console.log("User does not exist");
-            return NextResponse.json({
-                status: 404,
-                message: "User does not exist"
-            });
-        }
-
-        //get following list of users along with name
-        const following = await prisma.user.findMany({
-            where: {
-                followers: {
-                    some: {
-                        id: userId
-                    }
-                },
             },
-            select: {
-                id: true,
-                name: true
+            select:{
+                following:{
+                    select:{
+                        following:{
+                            select:{
+                                id: true,
+                                name: true,
+                            }
+                        }
+                    }
+                }
             }
         });
+
 
         return NextResponse.json({
             status: 200,
             message: "Following",
-            following: following
+            following: following,
+            userId
         });
 
     }catch(err){

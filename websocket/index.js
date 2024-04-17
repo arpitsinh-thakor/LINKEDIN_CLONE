@@ -31,9 +31,9 @@ io.on('connection', (socket) => {
         console.log('user disconnected', socket.id);
     });
     
-    socket.on('message', ({message , room}) => {
+    socket.on('message', ({message , room, userName, roomName}) => {
         console.log(`Message: ${message} for room: ${room}`);
-        io.to(room).emit('receive-message', message);
+        io.to(room).emit('receive-message', {message, userName, roomName});
     })
 
     socket.on('join-room', ({roomName}) => {

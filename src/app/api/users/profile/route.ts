@@ -23,13 +23,23 @@ export async function POST(req: NextRequest) {
 
                 },
                 followers: {
-                    select: {
-                        id: true,
+                    select:{
+                        follower :{
+                            select:{
+                                id: true,
+                                name: true,
+                            }
+                        }
                     }
                 },
                 following: {
-                    select: {
-                        id: true,
+                    select:{
+                        following:{
+                            select:{
+                                id: true,
+                                name: true,
+                            }
+                        }
                     }
                 }
             }

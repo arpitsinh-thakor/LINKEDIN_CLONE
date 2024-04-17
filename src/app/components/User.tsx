@@ -2,32 +2,18 @@
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
 
-const User =  ({userId}:{userId: Number}) => {
-    const [user, setUser] = useState({
-        id: '',
-        email: '',
-        name: ''
-    })
-    
-    useEffect(
-        () => {
-        const getData = async () => {
-            const res = await axios.post('/api/users/getUser',{userId})
-            const data = await res.data
-            console.log(data)
-            setUser(data.user)
-        }
-        getData()
-    }, [userId])
+const User =  ({userId, userName}:{userId: Number, userName: String}) => {
 
   return (
-    <div className='border border-white p-2'>
+    <div 
+        className='flex items-center justify-center w-4/12 border border-white p-2 rounded-md bg-gray-800 text-white'
+        >
         {
-            user.id && 
+            userId && 
             <div>
-                <p>{user.id}</p>
-                <p>{user.email}</p>
-                <p>{user.name}</p>
+                <p 
+                    className='font-bold text-md text-center'
+                    >{userName}</p>
             </div>
         }
     </div>

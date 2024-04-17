@@ -7,17 +7,13 @@ export async function POST(req: NextRequest){
         const reqBody = await req.json();
         const userId = Number(reqBody.userId);
 
-        const user = await prisma.user.findUnique({
+        //find corresponding user's details
+        const user = await prisma.following.findUnique({
             where: {
                 id: userId
-            },
-            select: {
-                id: true,
-                email: true,
-                name: true,
             }
         });
-
+        
         if(!user){
             console.log("User does not exist");
             return NextResponse.json({

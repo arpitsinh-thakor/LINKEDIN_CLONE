@@ -14,6 +14,8 @@ const Profile = () => {
         following: []
     })
     const [posts, setPosts] = useState([])
+    const [followers, setFollowers] = useState([])
+    const [following, setFollowing] = useState([])
 
     const getData = async () => {
         const userId = localStorage.getItem('userId')
@@ -23,7 +25,8 @@ const Profile = () => {
         console.log(user)
         setUser(user)
         setPosts(user.posts)
-        
+        setFollowers(user.followers)
+        setFollowing(user.following)        
     }
 
     useEffect(() => {
@@ -31,16 +34,40 @@ const Profile = () => {
     }, [])
 
   return (
-    <div>
-        <h1>Profile</h1>
-        <div>
-            <h3>User Profile</h3>
-            <p>{user?.id}</p>
-            <p>{user?.email}</p>
-            <p>{user?.name}</p>
-            <div>
-                <h3>Posts</h3>
-                <ul>
+    <div 
+        className='flex flex-col items-center justify-center  py-2 bg-gray-800 text-white gap-3 '
+        >
+        <h1 
+            className='font-bold text-2xl text-center'
+            >Profile</h1>
+        <div
+            className='w-[80%] flex flex-col items-center justify-center gap-3 bg-gray-700 p-4 rounded-md'
+            >
+            <h3
+                className='font-bold text-xl text-center'
+                >User Profile</h3>
+            <div
+                className='w-8/12 flex flex-col items-center justify-center gap-3 bg-gray-600 p-4 rounded-md'
+                >
+            <p
+                className='font-bold text-lg text-center'
+                >{`User ID -> ${user?.id}`}</p>
+            <p
+                className='font-bold text-lg text-center'
+                >{`User EMAIL -> ${user?.email}`}</p>
+            <p
+                className='font-bold text-lg text-center'
+                >{`User Name -> ${user?.name}`}</p>
+            </div>
+            <div
+                className = 'w-10/12 flex flex-col items-center justify-center gap-3 bg-gray-600 p-4 rounded-md'
+                >
+                <h3
+                    className='font-bold text-xl text-center'
+                    >Posts</h3>
+                <ul 
+                    className = 'w-11/12 flex flex-col items-center justify-center gap-3 bg-gray-500 p-4 rounded-md '
+                    >
                     {posts && posts.map((post: {
                         id: string;
                         title: string;
@@ -48,26 +75,56 @@ const Profile = () => {
                         published: boolean;
                     }) => (
                         <li key={post.id}>
-                            <div className='border border-white p-2'>
-                                <h4>{post.title}</h4>
-                                <p>{post.content}</p>
-                                <p>{post.published ? "yes published":"not published"}</p>
+                            <div 
+                                className = ' flex flex-col items-center justify-center gap-3 bg-gray-400 p-4 rounded-md '
+                                >
+                                <h4
+                                    className='font-bold text-lg text-center text-black'
+                                    >{post.title}</h4>
+                                <p
+                                    className='font-bold text-lg text-center text-black'
+                                    >{post.content}</p>
+                                <p
+                                    className='font-bold text-lg text-center'
+                                    >{post.published ? 
+                                        <div className = 'text-green-500'
+                                            >Yes Published</div>
+                                        :
+                                        <div
+                                            className = 'text-red-500'
+                                            >Not Yet Published</div>}</p>
                             </div>
                         </li>
                     ))}
                 </ul>
             </div>
-            <h3>Followers</h3>
-            <div>
-                {user.followers && user.followers.map((follower: any) => (
-                    <User key={follower.id} userId = {follower.id} />
+            <div 
+                className = 'w-10/12 flex flex-col items-center justify-center gap-3 bg-gray-600 p-4 rounded-md'
+                >
+            <h3 className='font-bold text-xl text-center'>Followers</h3>
+            <div
+                className='w-11/12 flex flex-col items-center justify-center gap-3 bg-gray-500 p-4 rounded-md'
+                >
+                {
+                    followers && followers.map((follower: any) => (
+                        <User key={follower.follower.id} userId = {follower.follower.id} userName = {follower.follower.name}/>
+                    ))
+                }
+            </div>
+            </div>
+            <div
+                 className = 'w-10/12 flex flex-col items-center justify-center gap-3 bg-gray-600 p-4 rounded-md'
+                >
+            <h3
+                className='font-bold text-xl text-center'
+                >Following</h3>
+            <div
+                className='w-11/12 flex flex-col items-center justify-center gap-3 bg-gray-500 p-4 rounded-md'
+                >
+                {user.following && user.following.map((follow: any) => (
+                    <User key={follow.following.id} userId = {follow.following.id}  userName={follow.following.name}/>
                 ))}
             </div>
-            <h3>Following</h3>
-            <div>
-                {user.following && user.following.map((follow: any) => (
-                    <User key={follow.id} userId = {follow.id} />
-                ))}
             </div>
         </div>
     </div>

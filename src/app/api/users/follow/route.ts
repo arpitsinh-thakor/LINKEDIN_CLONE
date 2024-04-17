@@ -5,8 +5,19 @@ export async function POST(req: NextRequest){
     const prisma = new PrismaClient();
     try{
         const reqBody = await req.json();
+        console.log(reqBody);
         const userId = Number(reqBody.userId);
-        const followId = Number(reqBody.followId);
+        const followerId = Number(reqBody.followerId);
+        console.log(userId, followerId);
+
+        const isSameUser = userId === followerId;
+        if(isSameUser){
+            console.log("Cannot follow self");
+            return NextResponse.json({
+                status: 400,
+                message: "Cannot follow self"
+            });
+        }
 
         const user = await prisma.user.findUnique({
             where: {
@@ -22,69 +33,60 @@ export async function POST(req: NextRequest){
             });
         }
 
-        const followUser = await prisma.user.findUnique({
+
+        const follower = await prisma.user.findUnique({
             where: {
-                id: followId
+                id: followerId
             }
         });
 
-        if(!followUser){
-            console.log("User to follow does not exist");
+        if(!follower){
+            console.log("Follower does not exist");
             return NextResponse.json({
                 status: 404,
-                message: "User to follow does not exist"
+                message: "Follower does not exist"
             });
         }
 
-        await prisma.user.update({
+        //check if user is already following
+        const isFollowing = await prisma.following.findFirst({
             where: {
-                id: userId
-            },
-            data: {
-                following: {
-                    connectOrCreate:{
-                        where: {
-                            id: followId
-                        },
-                        create: {
-                            id: followId
-                        }
-                    }
-                }
+                followingId: userId,
+                followerId: followerId
             }
         });
 
-        await prisma.user.update({
-            where: {
-                id: followId
-            },
+
+        if(isFollowing){
+            console.log("Already following");
+            return NextResponse.json({
+                status: 400,
+                message: "Already following"
+            });
+        }
+
+        //create following
+        await prisma.following.create({
             data: {
-                followers: {
-                    connectOrCreate:{
-                        where: {
-                            id: userId
-                        },
-                        create: {
-                            id: userId
-                        }
-                    }
-                }
+                followingId: userId,
+                followerId: followerId
             }
         });
 
         return NextResponse.json({
-            message: "User followed"
+            status: 200,
+            message: "Following",
+            followerId,
+            userId
         });
 
-
-    }
-    catch(err){
+    }catch(err){
         console.log(err);
         return NextResponse.json({
-            message: "Error following user"
+            status: 500,
+            message: "Internal Server Error"
         });
-    }
-    finally{
+    }finally{
         await prisma.$disconnect();
     }
 }

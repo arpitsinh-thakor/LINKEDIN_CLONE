@@ -1,9 +1,12 @@
 "use client"
 import axios from 'axios'
 import Link from 'next/link'
+import { redirect, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 const SignUp = () => {
+    const router = useRouter()
+
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -13,6 +16,12 @@ const SignUp = () => {
         const res = await axios.post('/api/users/signup', 
             {name: name, email: email, password: password})
         console.log(res)
+
+        if(res.status === 200){
+            console.log("Signup successful")
+            //redirect to login page
+            router.push('/login')
+        }
 
     }
   return (

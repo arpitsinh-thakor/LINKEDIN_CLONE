@@ -6,8 +6,9 @@ const NetworkProfile = ({user}:{user:User}) => {
   const handleFollow = async () => {
     const res = await axios.post('/api/users/follow', {
       userId: localStorage.getItem('userId'),
-      followId: user.id
+      followerId: user.id
     });
+    console.log(res.data);
   }
   return (
     <div className='border border-white p-3'>

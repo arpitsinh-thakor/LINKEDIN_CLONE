@@ -1,9 +1,12 @@
 'use client'
 import axios from 'axios'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, {useState} from 'react'
 
 const Login = () => {
+
+    const router = useRouter()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -15,6 +18,13 @@ const Login = () => {
         console.log(res)
         const data = await res.data
         localStorage.setItem('userId', data.user.id)
+
+        if(res.status === 200){
+            console.log("Login successful")
+            //redirect to feed page
+            router.push('/feed')
+        }
+
     }
   return (
     <div className='bg-blue-300 flex flex-col h-screen justify-center items-center gap-3'>

@@ -10,11 +10,12 @@ const SignUp = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [currentCompany, setCurrentCompany] = useState('')
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         const res = await axios.post('/api/users/signup', 
-            {name: name, email: email, password: password})
+            {name: name, email: email, password: password, currentCompany: currentCompany})
         console.log(res)
 
         if(res.status === 200){
@@ -33,7 +34,7 @@ const SignUp = () => {
           <Link className='text-blue-500 hover:underline font-medium'
           href='/login'> Login</Link></p>
         <form 
-            className='flex flex-col gap-2 items-center w-1/3 bg-white p-5 rounded-md shadow-md border border-gray-200 '
+            className='flex flex-col gap-2 items-center w-3/6 bg-white p-5 rounded-md shadow-md border border-gray-200 '
             onSubmit={handleSubmit}>
             <div>
             <label 
@@ -52,6 +53,16 @@ const SignUp = () => {
                 className="form-control text-black bg-slate-300 p-1 m-2 rounded-md focus:bg-slate-200" 
                 onChange={(e) => setEmail(e.target.value)}
                 type="email" id="email" name="email" />
+            </div>
+
+            <div>
+            <label
+                className='font-medium'
+                htmlFor="currentCompany">Current Company Working for</label>
+            <input
+                className="form-control text-black bg-slate-300 p-1 m-2 rounded-md focus:bg-slate-200"
+                onChange={(e) => setCurrentCompany(e.target.value)}
+                type="text" id="currentCompany" name="currentCompany" />
             </div>
             
             <div>

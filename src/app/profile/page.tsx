@@ -9,6 +9,7 @@ const Profile = () => {
         id: '',
         email: '',
         name: '',
+        currentCompany: '',
         posts: [],
         followers: [],
         following: []
@@ -58,6 +59,11 @@ const Profile = () => {
             <p
                 className='font-bold text-lg text-center'
                 >{`User Name -> ${user?.name}`}</p>
+
+            <p
+                className='font-bold text-lg text-center'
+                >{`User Current Company -> ${user?.currentCompany || 'No Current Company'}`}</p>
+
             </div>
             <div
                 className = 'w-10/12 flex flex-col items-center justify-center gap-3 bg-gray-600 p-4 rounded-md'

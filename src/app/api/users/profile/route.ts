@@ -14,11 +14,12 @@ export async function POST(req: NextRequest) {
                 id: true,
                 name: true,
                 email: true,
+                currentCompany: true,
                 posts: {
                     select: {
                         id: true,
                         title: true,
-                        content: true
+                        content: true,
                     },
 
                 },

@@ -6,14 +6,15 @@ export async function POST(req: NextRequest) {
     const prisma = new PrismaClient();
     try {
         const reqBody = await req.json();
-        const { name, email, password} = reqBody;
+        const { name, email, password, currentCompany} = reqBody;
         console.log(reqBody);
         const hashedPassword = await getHashPassword(password);
         const user = await prisma.user.create({
             data: {
                 name,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                currentCompany
             }
         });
         console.log(user);

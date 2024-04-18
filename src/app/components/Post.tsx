@@ -1,7 +1,6 @@
 import React, { use, useEffect, useState } from 'react'
 import { Post } from '../interfaces/post'
 import axios from 'axios'
-import Comments from './Comments'
 
 
 const  PostComponent = ({post}:{post: Post}) => {

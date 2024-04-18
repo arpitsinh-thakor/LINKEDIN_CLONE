@@ -28,7 +28,7 @@ const SignUp = () => {
   return (
     <div className='bg-blue-300 flex flex-col h-screen justify-center items-center gap-3'>
         <h1 className=' text-3xl font-extrabold text-center'
-        >Sign Up Page</h1>
+        >Sign Up</h1>
         <p>
           Already have an account ? 
           <Link className='text-blue-500 hover:underline font-medium'

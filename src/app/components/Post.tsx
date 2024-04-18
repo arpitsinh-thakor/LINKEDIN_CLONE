@@ -15,24 +15,48 @@ const  PostComponent = ({post}:{post: Post}) => {
     }
 
   return (
-    <div className='border border-blue-50 p-2'>
-        <h3>{title}</h3>
-        <p>{content}</p>
-        <p>{author.name}</p>
-        <p>{published ? "yes published": "yet to be published"}</p>
+    <div className='border border-blue-50 p-2 bg-zinc-800 rounded-md'>
+        <p
+            className='text-white text-lg font-semibold'
+            >{author.name}</p>
+        <h3
+            className='text-2xl text-white uppercase font-bold'
+            >{title}</h3>
+        <p
+            className='text-white italic text-lg font-semibold'
+            >{content}</p>
+        <p
+            className='text-white text-sm  '
+            >{published ? "yes published": "yet to be published"}</p>
 
-        <label htmlFor="comment">Comment</label>
+        <div className='flex gap-2 my-3 items-baseline'>
+        <label 
+            className='text-white font-semibold'
+            htmlFor="comment">Comment</label>
         <textarea 
-        className='form-control text-black'
-        onChange={(e) => setComment(e.target.value)}
-        name="comment" id="comment" rows={1} cols={20} ></textarea>
-        <button className='bg-blue-500 text-white' 
-        onClick={handleComment}>Comment</button>
+            className='border border-blue-50 p-1 bg-zinc-800 rounded-md text-white'
+            onChange={(e) => setComment(e.target.value)}
+            name="comment" id="comment" rows={1} cols={20} placeholder='Add a comment'></textarea>
+        <button 
+            className='bg-blue-500 text-white p-1 rounded-md hover:bg-blue-700'
+            onClick={handleComment}>Comment</button>
+        </div>
 
-        <h4>Comments</h4>
-        <ul>
+        <h4
+            className='text-white text-lg font-semibold '
+            >Comments:-</h4>
+        <ul className='flex flex-col gap-2 m-1 mx-3'>
             {comments && comments.map((comment) => (
-                <li key={comment.id}>`{comment.text} by {comment.author.name}`</li>
+                <div 
+                    className='flex flex-col border border-blue-50 p-2 bg-zinc-700 rounded-md'
+                    key={comment.id}>
+                    <div
+                        className='text-white font-semibold'
+                        >{comment.author.name}</div>
+                    <div
+                        className='text-white italic font-semibold'
+                        >{comment.text}</div>
+                </div>
             ))}
         </ul>
        

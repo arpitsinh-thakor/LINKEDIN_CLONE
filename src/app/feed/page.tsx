@@ -20,9 +20,9 @@ const Feed = () => {
     }, [])
 
   return (
-    <div>
+    <div className='bg-black'>
         <h1>Feed Page</h1>
-        <ul className='flex flex-col gap-2 m-2 '>
+        <ul className='flex flex-col gap-2 m-2 items-center'>
             {
                 posts.map((post: Post) => {
                     return <li key={post.id}>

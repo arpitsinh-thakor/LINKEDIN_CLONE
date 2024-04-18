@@ -2,6 +2,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Job from '../components/Job';
+import { useRouter } from 'next/navigation';
 
 export interface JobInterface {
     id: string;
@@ -16,6 +17,7 @@ export interface JobInterface {
     }
 }
 const Jobs = () => {
+    const router = useRouter()
     const [jobs, setJobs] = useState<JobInterface[]>([])
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -24,7 +26,8 @@ const Jobs = () => {
     const [salary, setSalary] = useState('')
     const userId = localStorage.getItem('userId') || ''
     const [trigger, setTrigger] = useState(false)
-
+    const [createdJobs, setCreatedJobs] = useState<JobInterface[]>([])
+    const [selectedJob, setSelectedJob] = useState<JobInterface | null>(null)
 
     const handleCreateJob = async (e: any) => {
         e.preventDefault()
@@ -54,19 +57,33 @@ const Jobs = () => {
         setJobs(data.jobs)
     }
 
+    const getCreatedJobs = async () => {
+        const res = await axios.post('/api/users/getCreatedJobs', {userId})
+        const data = await res.data
+        console.log(data)
+        setCreatedJobs(data.createdJobs)
+    }
+
+    const mangeJobHandler = async (e: any) => {
+        
+    }   
+
     useEffect(() => {
         getAllJobs()
+        getCreatedJobs()
     }, [trigger])
 
   return (
     <div className='grid grid-cols-3 '>
         <div className='col-span-2 bg-slate-400 p-2'>
             <h2
-                className='text-blue-500 text-2xl font-bold uppercase tracking-wider text-center'
+                className='text-blue-500 text-2xl font-bold uppercase tracking-wider text-center hover:text-blue-600 cursor-pointer'
                 >Jobs</h2>
-            <div className='flex flex-col gap-2'>{
+            <div 
+                className='flex flex-col gap-2' 
+                    >{
                     jobs && jobs.map((job) => (
-                        <Job key={job.id} job={job} showApply={true}/>
+                        <Job key={job.id} job={job} showApply={true} status={''}/>
                     ))
                 }
             </div>
@@ -129,6 +146,28 @@ const Jobs = () => {
                     <button 
                         className='bg-blue-500 text-white p-2 rounded-md font-bold hover:bg-blue-600'
                         type='submit'>Create Job</button>
+                </div>
+
+                <div>
+                    <h2
+                        className='text-blue-500 text-2xl font-bold uppercase tracking-wider text-center'
+                        >Created Jobs:-</h2>
+                    <div className='flex flex-col gap-1'>
+                        {
+                            createdJobs && createdJobs.map((job) => (
+                                <div 
+                                    className='border border-blue-500 p-1  rounded-md bg-slate-400 hover:bg-slate-500 cursor-pointer'
+                                    key={job.id}
+                                    
+                                >
+                                    <h2 
+                                        className='text-lg font-bold uppercase tracking-wider text-center'
+                                        onClick={()=> router.push(`/jobs/${job.id}`)}
+                                        >{job.title}</h2>
+                                </div>
+                            ))
+                        }
+                    </div>                    
                 </div>
             </form>
         </div>

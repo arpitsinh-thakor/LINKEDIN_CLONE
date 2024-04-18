@@ -2,7 +2,7 @@ import React from 'react'
 import { JobInterface } from '../jobs/page'
 import axios from 'axios'
 
-const Job = ({job, showApply }:{job: JobInterface, showApply: Boolean}) => {
+const Job = ({job, showApply, status }:{job: JobInterface, showApply: Boolean, status: String}) => {
     const {id, title, description, location, company, salary, user} = job
 
     const applyForJob = async () => {
@@ -20,7 +20,7 @@ const Job = ({job, showApply }:{job: JobInterface, showApply: Boolean}) => {
     }
   return (
     <div 
-        className = 'border border-blue-50 p-2 bg-slate-300 rounded-md'
+        className = 'border border-blue-50 p-2 bg-slate-300 rounded-md hover:bg-slate-200 m-2 flex flex-col gap-1 items-start'
         >
         <h3>
             <span className=' text-blue-500 text-lg font-bold uppercase tracking-wider'
@@ -50,6 +50,14 @@ const Job = ({job, showApply }:{job: JobInterface, showApply: Boolean}) => {
                 className='bg-blue-500 p-2 text-white rounded-md hover:bg-blue-600 font-bold'
                 >Apply</button>
         }
+        {
+            status && <p
+                className='flex text-black text-sm font-normal tracking-wider italic items-baseline'
+                ><div className='font-semibold'>Status: 
+                    </div>{status == 'pending' ? <div className='bg-red-300 rounded-md p-1'>Application Pending</div>: <div className='bg-green-300'> Application <div>{status}</div></div>}
+                </p>
+        }
+        
     </div>
   )
 }

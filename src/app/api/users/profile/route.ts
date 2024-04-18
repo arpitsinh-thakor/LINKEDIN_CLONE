@@ -54,7 +54,8 @@ export async function POST(req: NextRequest) {
                                 company: true,
                                 salary: true,
                             }
-                        }
+                        },
+                        status: true,
                     }
                 }
             }

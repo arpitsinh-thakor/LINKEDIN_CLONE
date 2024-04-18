@@ -144,7 +144,7 @@ const Profile = () => {
                 <ul className='flex flex-col gap-1'>
                     {
                         applications && applications.map((application: any) => (
-                            <Job key={application.job.id} job={application.job} showApply={false}/>
+                            <Job key={application.job.id} job={application.job} showApply={false} status={application.status}/>
                         ))
                     }
                 </ul>

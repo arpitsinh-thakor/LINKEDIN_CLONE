@@ -2,6 +2,7 @@
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
 import User from '../components/User'
+import Job from '../components/Job'
 
 const Profile = () => {
 
@@ -17,6 +18,7 @@ const Profile = () => {
     const [posts, setPosts] = useState([])
     const [followers, setFollowers] = useState([])
     const [following, setFollowing] = useState([])
+    const [applications, setApplications] = useState([])
 
     const getData = async () => {
         const userId = localStorage.getItem('userId')
@@ -28,6 +30,7 @@ const Profile = () => {
         setPosts(user.posts)
         setFollowers(user.followers)
         setFollowing(user.following)        
+        setApplications(user.applications)
     }
 
     useEffect(() => {
@@ -70,7 +73,7 @@ const Profile = () => {
                 >
                 <h3
                     className='font-bold text-xl text-center'
-                    >Posts</h3>
+                    >Posts: <span>{posts && posts.length}</span></h3>
                 <ul 
                     className = 'w-11/12 flex flex-col items-center justify-center gap-3 bg-gray-500 p-4 rounded-md '
                     >
@@ -107,7 +110,8 @@ const Profile = () => {
             <div 
                 className = 'w-10/12 flex flex-col items-center justify-center gap-3 bg-gray-600 p-4 rounded-md'
                 >
-            <h3 className='font-bold text-xl text-center'>Followers</h3>
+            <h3 className='font-bold text-xl text-center'
+                >Followers: <span>{followers && followers.length}</span></h3>
             <div
                 className='w-11/12 flex flex-col items-center justify-center gap-3 bg-gray-500 p-4 rounded-md'
                 >
@@ -123,7 +127,7 @@ const Profile = () => {
                 >
             <h3
                 className='font-bold text-xl text-center'
-                >Following</h3>
+                >Following: <span>{following && following.length}</span></h3>
             <div
                 className='w-11/12 flex flex-col items-center justify-center gap-3 bg-gray-500 p-4 rounded-md'
                 >
@@ -131,6 +135,19 @@ const Profile = () => {
                     <User key={follow.following.id} userId = {follow.following.id}  userName={follow.following.name}/>
                 ))}
             </div>
+            </div>
+
+            <div>
+                <h3
+                    className='font-bold text-xl text-center m-2'
+                    >Applied for JOB: <span>{applications && applications.length}</span></h3>
+                <ul className='flex flex-col gap-1'>
+                    {
+                        applications && applications.map((application: any) => (
+                            <Job key={application.job.id} job={application.job} showApply={false}/>
+                        ))
+                    }
+                </ul>
             </div>
         </div>
     </div>

@@ -66,7 +66,7 @@ const Jobs = () => {
                 >Jobs</h2>
             <div className='flex flex-col gap-2'>{
                     jobs && jobs.map((job) => (
-                        <Job key={job.id} job={job} />
+                        <Job key={job.id} job={job} showApply={true}/>
                     ))
                 }
             </div>

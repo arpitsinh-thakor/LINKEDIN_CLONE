@@ -24,6 +24,7 @@ model User {
   followers   Following[] @relation("UserFollowers")
   currentCompany String?
   jobs        Job[]
+  applications Application[]
 }
 
 model Post {
@@ -66,6 +67,18 @@ model Job {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   salary      Int
+  applications Application[]
+}
+
+model Application {
+  id          Int         @id @default(autoincrement())
+  user        User        @relation(fields: [userId], references: [id])
+  userId      Int
+  job         Job         @relation(fields: [jobId], references: [id])
+  jobId       Int
+  status      String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
 
 

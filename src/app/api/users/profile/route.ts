@@ -42,6 +42,20 @@ export async function POST(req: NextRequest) {
                             }
                         }
                     }
+                },
+                applications: {
+                    select:{
+                        job:{
+                            select:{
+                                id: true,
+                                title: true,
+                                description: true,
+                                location: true,
+                                company: true,
+                                salary: true,
+                            }
+                        }
+                    }
                 }
             }
         });
